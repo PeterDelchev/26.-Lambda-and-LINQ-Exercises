@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _04.Most_Valued_Customer
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string shopRecord = Console.ReadLine();
+
+            Dictionary<string, double> shopStore = new Dictionary<string, double>();
+
+            while (shopRecord != "Shop is open")
+            {
+                string[] shopRecordParts = shopRecord.Split(' ');
+
+                string product = shopRecordParts[0];
+                double price = double.Parse(shopRecordParts[1]);
+
+                shopStore[product] = price;
+
+                shopRecord = Console.ReadLine();
+            }
+
+            //if (customerRecord == "Discount")
+            {
+
+            }
+
+
+            Dictionary<string, Dictionary<List<string>, double>> customers = new Dictionary<string, Dictionary<List<string>, double>>();
+
+            string customerRecord = Console.ReadLine();
+
+            while (customerRecord != "Print")
+            {
+                string[] customerRecordParts = customerRecord.Split(new[] { ':', ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                string nameCustomer = customerRecordParts[0];
+
+                List<string> boughtProducts = customerRecordParts.Skip(1).ToList(); //закупени продукти
+
+
+
+                if (!customers.ContainsKey(nameCustomer))
+                {
+                    customers.Add(nameCustomer, new Dictionary<List<string>, double>());
+                }
+                
+                double totalSumCustomer = 0.00;
+
+                foreach (var product in boughtProducts)
+                {
+                    totalSumCustomer += shopStore[product];
+
+                    customers[nameCustomer].Add(new List<string>(), totalSumCustomer);
+                }
+
+
+                customerRecord = Console.ReadLine();
+            }
+
+
+
+            //foreach (var item in shopStore)
+            //{
+            //    Console.WriteLine($"{item.Key} - {item.Value}");
+            //}
+
+            Console.WriteLine();
+
+            foreach (var item in customers)
+            {
+                Console.WriteLine($"{item.Key}: ");//name
+
+                Dictionary<List<string>, double> boughtProducts = item.Value;
+
+                foreach (var product in boughtProducts)
+                {
+                        Console.WriteLine($"{product.Key} - {product.Value}");
+                }
+
+                Console.WriteLine();
+
+            }
+        }
+    }
+}
