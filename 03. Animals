@@ -1,0 +1,148 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _03.Animals
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string command = Console.ReadLine();
+
+            List<Dog> dogData = new List<Dog>();
+            List<Cat> catData = new List<Cat>();
+            List<Snake> snakeData = new List<Snake>();
+
+            while (command != "I'm your Huckleberry")
+            {
+                string[] commandData = command.Split(' ');
+
+
+                if (commandData[0] == "talk")
+                {
+                    string animalName = commandData[1];
+
+                    if (dogData.Select(x => x.Name).Contains(animalName))
+                    {
+                        dogData(animalName).ProduceSound();
+                    }
+                    
+                }
+
+                else
+                {
+                    string clas = commandData[0];
+                    string name = commandData[1];
+                    int age = int.Parse(commandData[2]);
+                    int parameter = int.Parse(commandData[3]);
+
+                    switch (clas)
+                    {
+                        case "Dog":
+                            {
+                                Dog currentDog = new Dog()
+                                {
+                                    Name = name,
+                                    Age = age,
+                                    NumberOfLegs = parameter
+                                };
+
+                                dogData.Add(currentDog);
+                            }
+                            break;
+
+                        case "Cat":
+                            {
+                                Cat currentCat = new Cat()
+                                {
+                                    Name = name,
+                                    Age = age,
+                                    IntelligenceQuotient = parameter
+                                };
+
+                                catData.Add(currentCat);
+                            }
+                            break;
+
+                        case "Snake":
+                            {
+                                Snake currentSnake = new Snake()
+                                {
+                                    Name = name,
+                                    Age = age,
+                                    CrueltyCoefficient = parameter
+                                };
+
+                                snakeData.Add(currentSnake);
+                            }
+                            break;
+                    }
+                }
+
+                command = Console.ReadLine();
+            }
+
+
+            foreach (var dog in dogData)
+            {
+                Console.WriteLine($"Dog: {dog.Name}, Age: {dog.Age}, Number Of Legs: {dog.NumberOfLegs}");
+            }
+
+            foreach (var cat in catData)
+            {
+                Console.WriteLine($"Cat: {cat.Name}, Age: {cat.Age}, IQ: {cat.IntelligenceQuotient}");
+            }
+
+            foreach (var snake in snakeData)
+            {
+                Console.WriteLine($"Snake: {snake.Name}, Age: {snake.Age}, Cruetly: {snake.CrueltyCoefficient}");
+            }
+        }
+    }
+    class Dog
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public int NumberOfLegs { get; set; }
+
+        public void ProduceSound()
+        {
+                Console.WriteLine("I'm a Distinguishedog, and I will now produce a distinguished sound! Bau Bau.");
+        }
+    }
+
+    class Cat
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public int IntelligenceQuotient { get; set; }
+
+
+        public void ProduceSound(string nameAnimal)
+        {
+            if (Name == nameAnimal)
+            {
+                Console.WriteLine("I'm an Aristocat, and I will now produce an aristocratic sound! Myau Myau.");
+            }
+        }
+    }
+
+    class Snake
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public int CrueltyCoefficient { get; set; }
+
+
+        public void ProduceSound(string nameAnimal)
+        {
+            if (Name == nameAnimal)
+            {
+                Console.WriteLine("I'm a Sophistisnake, and I will now produce a sophisticated sound! Honey, I'm home.");
+            }
+        }
+    }
+}
