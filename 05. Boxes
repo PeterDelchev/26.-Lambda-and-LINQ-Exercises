@@ -1,0 +1,101 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _05.Boxes
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string command = Console.ReadLine();
+
+            List<Box> boxes = new List<Box>();
+
+            while (command != "end")
+            {
+                string[] commandData = command.Split(new[] { " | " }, StringSplitOptions.RemoveEmptyEntries);
+
+                string point1 = commandData[0]; //0:2
+                string point2 = commandData[1]; //2:2 
+                string point3 = commandData[2]; //0:0 
+                string point4 = commandData[3]; //2:0
+
+                Point upperLeft = Point.ParsePoint(point1);
+                Point upperRight = Point.ParsePoint(point2);
+                Point bottomLeft = Point.ParsePoint(point3);
+                Point bottomRight = Point.ParsePoint(point4);
+
+                Box currentBox = new Box()
+                {
+                    UpperLeft = upperLeft,
+                    UpperRight = upperRight,
+                    BottomLeft = bottomLeft,
+                    BottomRight = bottomRight
+                };
+
+                boxes.Add(currentBox);
+
+
+                command = Console.ReadLine();
+            }
+
+
+            foreach (var box in boxes)
+            {
+                Console.WriteLine("Box: {width}, {height}");
+                Console.WriteLine("Perimeter: {perimeter}");
+                Console.WriteLine("Area: {area}");
+            }
+        }
+    }
+
+
+    class Box
+    {
+        public Point UpperLeft { get; set; }
+        public Point UpperRight { get; set; }
+        public Point BottomLeft { get; set; }
+        public Point BottomRight { get; set; }
+
+
+        public static int CalculatePerimeter(int width, int height)
+        {
+            int perimeter = 2 * width + 2 * height;
+
+            return perimeter;
+        }
+
+        public static int CalculateArea(int width, int height)
+        {
+            int area = width * height;
+
+            return area;
+        }
+    }
+
+    class Point
+    {
+        public int x { get; set; }
+        public int y { get; set; }
+
+        private static double CalcDistance(Point point1, Point point2)//изчислява разстоянието между 2 точки
+        {
+            double sideA = Math.Pow(point1.x - point2.x, 2); //(x1 - x2)^2
+            double sideB = Math.Pow(point1.y - point2.y, 2); //(y1 - y2)^2
+
+            return Math.Sqrt(sideA + sideB);
+        }
+
+
+        public static Point ParsePoint(string input) //метод в class Point, вика се чрез "." -> Point.(метода)
+        {
+            int[] inputData = input.Split(' ').Select(int.Parse).ToArray();
+
+            Point point = new Point();
+            point.x = inputData[0];
+            point.y = inputData[1];
+            return point;
+        }
+    }
+}
