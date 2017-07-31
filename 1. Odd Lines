@@ -1,0 +1,103 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace _1.Odd_Lines
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //string text = File.ReadAllText("file.txt"); // -> string - reads a text file at once
+            //string[] lines = File.ReadAllLines("file.txt"); // reads a text file's lines
+
+            //File.WriteAllText("output.txt", "Files are fun :)");//създава файл output с текст "Files are fun :)"
+            //                                                    //в папката, където се записва програмата има папка "Debug" 
+            //                                                    //файла се създава или променя след Ctrl+F5
+
+            //string[] names = {"peter", "irina", "georgi", "maria"};
+            //File.WriteAllLines("output.txt", names); //записва поредица от отделни редове към текстови файл
+
+            //File.AppendAllText("output.txt", "\r\nMore text\r\n");//добавя допълнителен текст към съществуващ файл output.txt
+
+            //var info = new FileInfo("output.txt"); //Use FileInfo to get information about a file:
+            //Console.WriteLine("File size: {0} bytes", info.Length);
+            //Console.WriteLine("Created at: {0}", info.CreationTime);
+            //Console.WriteLine("Path + name: {0}", info.FullName);
+            //Console.WriteLine("File extension: {0}", info.Extension);
+
+            //string text = "Hello there\r\nI'm Gosho"; //записваме текст като 1 стринг
+            //File.WriteAllText("output.txt", text); //създаден е файл output.txt с текст Hello there\r\nI'm Gosho
+            //                                       //Right Click in Solution Explorer on Project => Open Folder in File Explorer
+
+            //string textRead = File.ReadAllText("output.txt");//прочитаме текста от файл "output.txt и го записваме в променлива textRead
+            //Console.WriteLine(textRead); //отпечатваме целия текст на конзолата
+
+            //string[] textArray = File.ReadAllLines("output.txt");//прочитаме текста от файл "output.txt и го записваме в масив textArray
+            //foreach (var line in textArray)
+            //{
+            //    Console.WriteLine(line);//отпечатваме текста на конзолата ред по ред
+            //}
+
+            //string joinText = string.Join("\r\n", textArray);//равносилно на горния цикъл foreach
+            //Console.WriteLine(joinText);
+            ////=================================
+            ////прочитане и печатане на текста като потоци - Streams, когато трябва да се прочете голям по обем текст
+
+            //using (StreamReader reader = new StreamReader("output.txt"))
+            //{
+            //    while (!reader.EndOfStream)//докато не достигне указан край на потока да се чете ред
+            //    {
+            //        string line = reader.ReadLine();
+            //        Console.WriteLine(line);
+            //    }
+            //}
+
+            //using (StreamWriter writer = new StreamWriter("output.txt"))//записва поредица от редове, докато не му се укаже "Close"
+            //{
+            //    writer.WriteLine("Hello there");
+            //    writer.WriteLine("Gosho is here");
+            //}
+            ////writer.Close(); //ако не се използва using, ЗАДЪЛЖИТЕЛНО трябва да го има този ред, иначе файла ще е празен!!!
+
+            ////когато трябва да се добави текст а не да се презаписва предишния:
+            //using (StreamWriter writer = new StreamWriter("output.txt", append: true))//добавя поредица от редове
+            //{
+            //    writer.WriteLine("Hello there again");
+            //    writer.WriteLine("Gosho has gone");
+
+            //    FileInfo fileInfo = new FileInfo("output.txt");
+            //    Console.WriteLine(fileInfo.DirectoryName);//информация за файл
+            //    Console.WriteLine(fileInfo.Length / 1024.0);//инфо за размера на файла в kB( /1024)
+            //}
+
+
+            string[] text = {"Two households, both alike in dignity,",
+"In fair Verona, where we lay our scene,",
+"From ancient grudge break to new mutiny,",
+"Where civil blood makes civil hands unclean.",
+"From forth the fatal loins of these two foes",
+"A pair of star - cross'd lovers take their life;",
+"Whose misadventured piteous overthrows",
+"Do with their death bury their parents' strife."};
+
+            File.WriteAllLines("textOddLines.txt", text);// създава файл textOddLines със съдържанието на text
+
+            string[] lines = File.ReadAllLines("textOddLines.txt");//прочита текста в създадения горе файл
+
+            //var oddLines = lines.Where((line, index) => index % 2 == 1); //сортира нечетните редове
+            //File.WriteAllLines("textOddLines.txt", oddLines); // презаписва файла САМО с нечетните редове
+
+            //алтернатива:
+            File.Delete("textOddLines.txt"); //изтрива всички редове
+
+            for (int i = 1; i < lines.Length; i+=2) 
+            {
+                File.AppendAllText("textOddLines.txt", lines[i] + Environment.NewLine);
+            } //добава редове прескачайки един (i+=2);  + Environment.NewLine е за нов ред
+        }
+    }
+}
