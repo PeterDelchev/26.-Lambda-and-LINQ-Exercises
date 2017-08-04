@@ -1,0 +1,86 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+
+namespace _05.Points_Counter
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string command = Console.ReadLine();
+
+            Dictionary<string, Dictionary<string, int>> gameDataBase = new Dictionary<string, Dictionary<string, int>>();
+
+            while (command != "Result")
+            {
+                string[] commandParts = command.Split('|');
+
+                char[] prohibitedSymbols = { '@', '%', '$', '*'};
+
+                string firstPart = commandParts[0];
+                string secondPart = commandParts[1];
+                int points = int.Parse(commandParts[2]);
+
+                string player = "";
+                string team = "";
+
+                foreach (var symbol in prohibitedSymbols)
+                {
+                    firstPart = firstPart.Replace(symbol.ToString(), "");
+                    secondPart = secondPart.Replace(symbol.ToString(), "");
+                }
+
+                char lastChar =char.Parse(firstPart.Substring(firstPart.Count()-1, 1));//отделяме последния символ на стринга
+
+                if ('a' <= lastChar && lastChar <= 'z')
+                {
+                    player = firstPart;
+                    team = secondPart;
+                }
+
+                else
+                {
+                    team = firstPart;
+                    player = secondPart;
+                }
+
+                if (!gameDataBase.ContainsKey(team))
+                {
+                    gameDataBase.Add(team, new Dictionary<string, int>());
+                }
+
+                gameDataBase[team][player] = points;
+
+
+                command = Console.ReadLine();
+            }
+
+
+            List<string> teams = gameDataBase.Select(kvp => kvp.Key).ToList();// отделяне на ключовете като списък от стрингове
+            //int teamPoints = gameDataBase.Select(kvp => kvp.Values.Sum());
+
+            foreach (var team in teams)
+            {
+                Console.WriteLine(team);
+            }
+            
+            
+            
+            //foreach (var game in gameDataBase)
+            //{
+            //    string team = game.Key;
+            //    Dictionary<string, int> players = game.Value;
+
+            //    Console.Write($"Team: {team} -> ");
+
+            //    foreach (var player in players)
+            //    {
+            //        Console.WriteLine($"{player.Key} score {player.Value} points");
+            //    }
+            //}
+        }
+    }
+}
